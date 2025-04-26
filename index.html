@@ -12,6 +12,21 @@
       document.documentElement.classList.add("dark-mode");
     }
   </script>
+  <!-- CropperJS CSS -->
+  <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet" />
+
+  <!-- CropperJS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+  <!-- QR Code generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+  <!-- VanillaColorPicker CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/vanilla-color-picker/dist/vanilla-color-picker.min.css" />
+
+  <!-- VanillaColorPicker JS -->
+  <script src="https://unpkg.com/vanilla-color-picker"></script>
+
 </head>
 <body>
   <!-- Navbar -->
@@ -74,12 +89,25 @@
           <h2 id="previewName">Your Name</h2>
           <p id="previewEmail">youremail@example.com</p>
           <p id="previewPhone">123-456-7890</p>
-          <div id="previewQR" class="qr-placeholder">[ QR CODE ]</div>
+          <div class="qr-wrapper">
+            <canvas id="previewQR" class="qr-placeholder"></canvas>
+          </div>          
         </div>
       </div>
     </section>
   </main>
 
+  <!-- Cropper Modal -->
+  <div id="cropperModal" class="modal hidden">
+    <div class="modal-content">
+      <img id="cropperImage" src="" alt="Crop Image">
+      <div class="modal-buttons">
+        <button id="cropButton">Crop and Use</button>
+        <button id="cancelCropButton">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
   <!-- Footer -->
   <footer class="footer fade-in">
     <p>PassGen is an independent project and is not affiliated with Apple Inc. © CodexAmmar 2025</p>

@@ -56,6 +56,7 @@
     padding: 10px 20px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     height: 60px;
+    transition: background 0.4s ease, color 0.4s ease; /* <-- ADD THIS */
   }
   
   .nav-container {
@@ -63,6 +64,10 @@
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    max-width: 1300px; /* <-- Add this */
+    margin: 0 auto; /* <-- Center the nav content */
+    width: 100%; /* <-- Make sure it stays responsive */
+    padding: 0 1rem; /* <-- Small breathing room on left/right */
   }  
   
   .right-group {
@@ -76,9 +81,10 @@
   }
   
   .logo {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: #000; /* Black by default */
+    transition: color 0.4s ease;
   }
   
   html.dark-mode .logo {
@@ -181,6 +187,7 @@
     border-radius: 8px;
     font-size: 1rem;
     background: #f9f9f9;
+    transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease; /* <-- ADD THIS */
   }
   
   input[type="file"] {
@@ -231,12 +238,20 @@
     background: #ffffff;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     text-align: center;
-    transition: background 0.4s;
+    transition: background 0.4s, box-shadow 0.4s, transform 0.3s;
   }
+  
+  /* Only apply hover lift effect for screens wider than 768px (i.e., desktops) */
+  @media (min-width: 768px) {
+    .pass-preview:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+  }  
   
   html.dark-mode .pass-preview {
     background: #1f1f1f;
-    box-shadow: 0 4px 12px rgba(255,255,255,0.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   }
   
   .preview-photo {
@@ -274,5 +289,78 @@
   
   html.dark-mode .footer {
     color: #aaa;
+  }
+  
+  /* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  #cropperImage {
+    max-width: 90vw;
+    max-height: 70vh;
+  }
+  
+  .modal-buttons {
+    margin-top: 1rem;
+  }
+  
+  .modal-buttons button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #0070f3;
+    color: white;
+  }
+  
+  .modal-buttons button:hover {
+    background: #0057c2;
+  }
+  
+  /* Hide Modal by Default */
+  .hidden {
+    display: none;
+  }
+
+  .qr-wrapper {
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 12px;
+    display: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 1rem;
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+  }
+  
+  html.dark-mode .qr-wrapper {
+    background: #ffffff;
+  }
+  
+  #previewQR {
+    width: 120px;
+    height: 120px;
+    display: block;
+    margin: 0 auto;
   }
   
