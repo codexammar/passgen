@@ -15,49 +15,68 @@
 </head>
 <body>
   <!-- Navbar -->
-<header class="navbar">
+  <header class="navbar">
     <div class="nav-container">
       <div class="left-group">
         <a href="https://codexammar.github.io/" class="back-button" aria-label="Back to homepage">←</a>
         <div class="logo">PassGen</div>
       </div>
-      <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      <div class="right-group">
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      </div>
     </div>
   </header>  
 
   <!-- Main Content -->
   <main class="fade-in">
-    <section class="form-section">
-      <h1>Create Your Wallet Pass</h1>
+    <section class="page-header">
+      <h1>Create Your <span>Wallet Pass</span></h1>
+      <p>Fill in your information to preview and generate your Apple Wallet pass.</p>
+    </section>
 
-      <form id="passForm">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" placeholder="Enter your full name" required>
+    <section class="content-container">
+      <!-- Form Section -->
+      <div class="form-container">
+        <form id="passForm">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter your full name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" placeholder="Enter your phone number" required>
+          </div>
+
+          <div class="form-group">
+            <label for="website">Website/LinkedIn URL (for QR)</label>
+            <input type="url" id="website" placeholder="Enter a URL (optional)">
+          </div>
+
+          <div class="form-group">
+            <label for="photo">Upload Profile Picture</label>
+            <input type="file" id="photo" accept="image/*">
+          </div>
+
+          <button type="button" id="generatePass" disabled>Generate Wallet Pass</button>
+        </form>
+      </div>
+
+      <!-- Preview Section -->
+      <div class="preview-container">
+        <div class="pass-preview">
+          <div class="preview-photo"></div>
+          <h2 id="previewName">Your Name</h2>
+          <p id="previewEmail">youremail@example.com</p>
+          <p id="previewPhone">123-456-7890</p>
+          <div id="previewQR" class="qr-placeholder">[ QR CODE ]</div>
         </div>
-
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="Enter your email" required>
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="text" id="phone" placeholder="Enter your phone number" required>
-        </div>
-
-        <div class="form-group">
-          <label for="website">Website/LinkedIn URL (for QR)</label>
-          <input type="url" id="website" placeholder="Enter a URL (optional)">
-        </div>
-
-        <div class="form-group">
-          <label for="photo">Upload Profile Picture</label>
-          <input type="file" id="photo" accept="image/*">
-        </div>
-
-        <button type="button" id="generatePass" disabled>Generate Wallet Pass</button>
-      </form>
+      </div>
     </section>
   </main>
 
@@ -66,28 +85,6 @@
     <p>PassGen is an independent project and is not affiliated with Apple Inc. © CodexAmmar 2025</p>
   </footer>
 
-  <script>
-    // Theme toggle functionality
-    const themeToggle = document.getElementById("themeToggle");
-    themeToggle.addEventListener("click", () => {
-      document.documentElement.classList.toggle("dark-mode");
-      if (document.documentElement.classList.contains("dark-mode")) {
-        localStorage.setItem("theme", "dark");
-      } else {
-        localStorage.setItem("theme", "light");
-      }
-    });
-
-    // Enable Generate button only when required fields are filled
-    const formInputs = document.querySelectorAll("#name, #email, #phone");
-    const generateBtn = document.getElementById("generatePass");
-
-    formInputs.forEach(input => {
-      input.addEventListener("input", () => {
-        const allFilled = Array.from(formInputs).every(i => i.value.trim() !== "");
-        generateBtn.disabled = !allFilled;
-      });
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
