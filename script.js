@@ -354,6 +354,63 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // --- Create the PKPASS ---
         const downloadPassButton = document.getElementById('generatePass'); // Reuse your button for now
+        const downloadImageButton = document.getElementById('downloadPNG');
+
+        async function forceQRToImage() {
+            const qrCanvas = document.getElementById('previewQR');
+            if (!qrCanvas) return;
+        
+            // Create an image from the QR canvas
+            const qrDataUrl = qrCanvas.toDataURL('image/png');
+            const img = new Image();
+            img.src = qrDataUrl;
+        
+            await new Promise(resolve => {
+                img.onload = () => {
+                    // Replace the canvas with the new image in the DOM
+                    qrCanvas.replaceWith(img);
+                    img.id = "previewQR"; // Keep the same ID so nothing else breaks
+                    resolve();
+                };
+            });
+        }        
+
+        downloadImageButton.addEventListener('click', async () => {
+            const passPreview = document.querySelector('.pass-preview');
+            const qrCanvas = document.getElementById('previewQR');
+        
+            // Capture the preview as a canvas
+            html2canvas(passPreview, {
+                backgroundColor: null,
+                scale: 5,
+                useCORS: true,
+                allowTaint: true
+            }).then(capturedCanvas => {
+                const ctx = capturedCanvas.getContext('2d');
+        
+                // Now draw the QR code manually on top
+                if (qrCanvas) {
+                    const qrRect = qrCanvas.getBoundingClientRect();
+                    const previewRect = passPreview.getBoundingClientRect();
+        
+                    const offsetX = (qrRect.left - previewRect.left) * 5; // Adjust for scale
+                    const offsetY = (qrRect.top - previewRect.top) * 5;
+                    const width = qrRect.width * 5;
+                    const height = qrRect.height * 5;
+        
+                    ctx.drawImage(qrCanvas, offsetX, offsetY, width, height);
+                }
+        
+                // Create download link
+                const image = capturedCanvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = image;
+                link.download = 'wallet-pass.png';
+                link.click();
+            });
+        });
+
+
         // Disable button initially
         downloadPassButton.disabled = true;
 
