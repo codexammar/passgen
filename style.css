@@ -461,30 +461,6 @@
     background: #2a2a2a;
     border-color: #3399ff;
   }
-  
-  /* --- Color Pickers (Divs, No dark mode needed for color pickers themselves) --- */
-  .color-pickers label {
-    display: block;
-    margin-top: 1rem;
-    margin-bottom: 0.3rem;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-  
-  html.dark-mode .color-pickers label {
-    color: #ccc;
-  }
-  
-  .color-pickers div {
-    width: 50px;
-    height: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    background: #ddd;
-    cursor: pointer;
-    display: inline-block;
-    margin-bottom: 1rem;
-  }    
 
   .alignment-group {
     display: flex;
@@ -551,5 +527,19 @@
     opacity: 0;
     visibility: hidden;
   }
-  
-  
+
+  .pickr .pcr-button {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 6px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    border: 1px solid #ccc;
+    transition: box-shadow 0.3s ease;
+}
+
+.pickr .pcr-button:hover {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+
+
+

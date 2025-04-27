@@ -211,5 +211,81 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Call once on page load
         updateVisibility();
-            
+
+        // --- Color Pickers Initialization ---
+        // Background Color Picker
+const pickrBackground = Pickr.create({
+    el: '#bgColorButton',
+    theme: 'classic',
+    default: '#ffffff',
+    components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+        interaction: {
+            hex: true,
+            rgba: true,
+            input: true
+        }
+    }
+});
+
+// Update pass preview and Pickr button live
+pickrBackground.on('change', (color) => {
+    const hexColor = color.toHEXA().toString();
+
+    // Update pass preview background
+    document.querySelector('.pass-preview').style.backgroundColor = hexColor;
+
+    // Force Pickr button update properly
+    const button = pickrBackground.getRoot().button;
+    if (button) {
+        button.style.background = hexColor;
+        button.style.backgroundImage = 'none';
+    }
+
+    // Force Pickr to apply color internally too
+    pickrBackground.applyColor(true);
+});
+
+
+// Text Color Picker
+const pickrText = Pickr.create({
+    el: '#textColorButton',
+    theme: 'classic',
+    default: '#000000',
+    components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+        interaction: {
+            hex: true,
+            rgba: true,
+            input: true
+        }
+    }
+});
+
+// Update text fields and Pickr button live
+pickrText.on('change', (color) => {
+    const hexColor = color.toHEXA().toString();
+
+    // Update text color live
+    document.querySelectorAll('.fade-field').forEach(field => {
+        field.style.color = hexColor;
+    });
+
+    // Force Pickr button update properly
+    const button = pickrText.getRoot().button;
+    if (button) {
+        button.style.background = hexColor;
+        button.style.backgroundImage = 'none';
+    }
+
+    // Force Pickr to apply color internally too
+    pickrText.applyColor(true);
+});
+
+
+
   });  
