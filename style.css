@@ -336,8 +336,8 @@
     background: #0057c2;
   }
   
-  /* Hide Modal by Default */
-  .hidden {
+  /* True hidden for Modal (display: none) */
+  .modal.hidden {
     display: none;
   }
 
@@ -345,7 +345,9 @@
     background: #ffffff;
     padding: 10px;
     border-radius: 12px;
-    display: none;
+    display: inline-block;
+    opacity: 0;
+    visibility: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     margin-top: 1rem;
     width: fit-content;
@@ -526,6 +528,28 @@
     background: #3399ff;
     color: white;
     border-color: #3399ff;
+  }
+  
+  .fade-field {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  
+  .fade-field.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .fade-qr {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  
+  .fade-qr.fade-hidden {
+    opacity: 0;
+    visibility: hidden;
   }
   
   

@@ -130,6 +130,16 @@
                 <button type="button" class="alignment-button" data-align="right">Right</button>
             </div>              
         </div>
+
+        <div class="field-settings">
+            <div class="field-toggle">
+                <span>QR Code:</span>
+                <label class="switch">
+                  <input type="checkbox" id="toggleQR" checked>
+                  <span class="slider"></span>
+                </label>
+            </div>
+        </div>        
       
         <div class="color-pickers">
           <label>Background Color:</label>
@@ -145,12 +155,12 @@
       <div class="preview-container">
         <div class="pass-preview">
           <div class="preview-photo"></div>
-          <h2 id="previewName">Your Name</h2>
-          <p id="previewEmail">youremail@example.com</p>
-          <p id="previewPhone">123-456-7890</p>
-          <div class="qr-wrapper">
+          <h2 id="previewName" class="fade-field">Your Name</h2>
+          <p id="previewEmail" class="fade-field">youremail@example.com</p>
+          <p id="previewPhone" class="fade-field">123-456-7890</p>
+          <div class="qr-wrapper fade-qr fade-hidden">
             <canvas id="previewQR" class="qr-placeholder"></canvas>
-          </div>          
+          </div>               
         </div>
       </div>
     </section>

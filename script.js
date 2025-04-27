@@ -115,26 +115,41 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let qr;
 
+    const toggleQR = document.getElementById("toggleQR");
+    const qrWrapper = document.querySelector(".qr-wrapper");
+
+    toggleQR.addEventListener("change", () => {
+    if (toggleQR.checked) {
+        qrWrapper.classList.remove("fade-hidden");
+    } else {
+        qrWrapper.classList.add("fade-hidden");
+    }
+    });
+
     websiteInput.addEventListener("input", () => {
         const url = websiteInput.value.trim();
+        
         if (url.length > 0) {
           if (!qr) {
             qr = new QRious({
-                element: previewQR,
-                size: 120, // Match the CSS width/height
-                value: url,
-            });              
+              element: previewQR,
+              size: 120,
+              value: url,
+            });
           } else {
             qr.value = url;
           }
-          document.querySelector(".qr-wrapper").style.display = "inline-block"; // <-- SHOW the wrapper
+          if (toggleQR.checked) {
+            qrWrapper.classList.remove("fade-hidden"); // Fade in
+          }
         } else {
           if (qr) {
             qr = null;
           }
-          document.querySelector(".qr-wrapper").style.display = "none"; // <-- HIDE the wrapper
+          qrWrapper.classList.add("fade-hidden"); // Fade out
         }
-    });    
+    });
+      
     
     // ✨ Alignment Button Live Update Logic
     const alignmentMappings = {
@@ -167,11 +182,26 @@ document.addEventListener("DOMContentLoaded", function() {
         const toggleEmail = document.getElementById("toggleEmail");
         const togglePhone = document.getElementById("togglePhone");
 
-        // Helper function to toggle visibility
+        // (Preview elements already declared earlier)
+
         function updateVisibility() {
-        previewName.style.display = toggleName.checked ? "block" : "none";
-        previewEmail.style.display = toggleEmail.checked ? "block" : "none";
-        previewPhone.style.display = togglePhone.checked ? "block" : "none";
+        if (toggleName.checked) {
+            previewName.classList.remove("hidden");
+        } else {
+            previewName.classList.add("hidden");
+        }
+
+        if (toggleEmail.checked) {
+            previewEmail.classList.remove("hidden");
+        } else {
+            previewEmail.classList.add("hidden");
+        }
+
+        if (togglePhone.checked) {
+            previewPhone.classList.remove("hidden");
+        } else {
+            previewPhone.classList.add("hidden");
+        }
         }
 
         // Attach event listeners
