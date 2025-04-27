@@ -214,78 +214,196 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // --- Color Pickers Initialization ---
         // Background Color Picker
-const pickrBackground = Pickr.create({
-    el: '#bgColorButton',
-    theme: 'classic',
-    default: '#ffffff',
-    components: {
-        preview: true,
-        opacity: true,
-        hue: true,
-        interaction: {
-            hex: true,
-            rgba: true,
-            input: true
+        const pickrBackground = Pickr.create({
+            el: '#bgColorButton',
+            theme: 'classic',
+            default: '#ffffff',
+            components: {
+                preview: true,
+                opacity: true,
+                hue: true,
+                interaction: {
+                    hex: true,
+                    rgba: true,
+                    input: true
+                }
+            }
+        });
+
+        // Update pass preview and Pickr button live
+        pickrBackground.on('change', (color) => {
+            const hexColor = color.toHEXA().toString();
+
+            // Update pass preview background
+            document.querySelector('.pass-preview').style.backgroundColor = hexColor;
+
+            // Force Pickr button update properly
+            const button = pickrBackground.getRoot().button;
+            if (button) {
+                button.style.background = hexColor;
+                button.style.backgroundImage = 'none';
+            }
+
+            // Force Pickr to apply color internally too
+            pickrBackground.applyColor(true);
+        });
+
+
+        // Text Color Picker
+        const pickrText = Pickr.create({
+            el: '#textColorButton',
+            theme: 'classic',
+            default: '#000000',
+            components: {
+                preview: true,
+                opacity: true,
+                hue: true,
+                interaction: {
+                    hex: true,
+                    rgba: true,
+                    input: true
+                }
+            }
+        });
+
+        // Update text fields and Pickr button live
+        pickrText.on('change', (color) => {
+            const hexColor = color.toHEXA().toString();
+
+            // Update text color live
+            document.querySelectorAll('.fade-field').forEach(field => {
+                field.style.color = hexColor;
+            });
+
+            // Force Pickr button update properly
+            const button = pickrText.getRoot().button;
+            if (button) {
+                button.style.background = hexColor;
+                button.style.backgroundImage = 'none';
+            }
+
+            // Force Pickr to apply color internally too
+            pickrText.applyColor(true);
+        });
+
+        function generatePassJson() {
+            // Capture user inputs
+            const name = nameInput.value || "Your Name";
+            const email = emailInput.value || "youremail@example.com";
+            const phone = phoneInput.value || "123-456-7890";
+            const qrUrl = websiteInput.value || "https://example.com";
+        
+            // Capture colors
+            const bgColor = window.getComputedStyle(document.querySelector('.pass-preview')).backgroundColor || "rgb(255,255,255)";
+            const textColor = window.getComputedStyle(document.querySelector('.fade-field')).color || "rgb(0,0,0)";
+        
+            // Format colors correctly for pass.json (Wallet expects rgb)
+            const formattedBgColor = formatColor(bgColor);
+            const formattedTextColor = formatColor(textColor);
+        
+            // Build pass.json object
+            const passJson = {
+                formatVersion: 1,
+                passTypeIdentifier: "pass.example.passgen", // Dummy value
+                serialNumber: Date.now().toString(), // Unique ID based on time
+                teamIdentifier: "ABCDE12345", // Dummy value
+                organizationName: "PassGen",
+                description: "Generated Pass",
+                backgroundColor: formattedBgColor,
+                foregroundColor: formattedTextColor,
+                labelColor: formattedTextColor,
+                logoText: "PassGen",
+                barcode: {
+                    format: "PKBarcodeFormatQR",
+                    message: qrUrl,
+                    messageEncoding: "iso-8859-1"
+                },
+                generic: {
+                    primaryFields: [
+                        {
+                            key: "name",
+                            label: "Name",
+                            value: name
+                        }
+                    ],
+                    secondaryFields: [
+                        {
+                            key: "email",
+                            label: "Email",
+                            value: email
+                        }
+                    ],
+                    auxiliaryFields: [
+                        {
+                            key: "phone",
+                            label: "Phone",
+                            value: phone
+                        }
+                    ]
+                }
+            };
+        
+            return passJson;
         }
-    }
-});
+        function formatColor(colorString) {
+            // Make sure colors are formatted as "rgb(r,g,b)"
+            const ctx = document.createElement('canvas').getContext('2d');
+            ctx.fillStyle = colorString;
+            return ctx.fillStyle; // Browser auto-converts to rgb format
+        }                
 
-// Update pass preview and Pickr button live
-pickrBackground.on('change', (color) => {
-    const hexColor = color.toHEXA().toString();
+        // --- Create the PKPASS ---
+        const downloadPassButton = document.getElementById('generatePass'); // Reuse your button for now
 
-    // Update pass preview background
-    document.querySelector('.pass-preview').style.backgroundColor = hexColor;
+        downloadPassButton.addEventListener('click', async () => {
+            // 1. Generate pass.json
+            const passJson = generatePassJson();
+            const passJsonString = JSON.stringify(passJson, null, 2);
 
-    // Force Pickr button update properly
-    const button = pickrBackground.getRoot().button;
-    if (button) {
-        button.style.background = hexColor;
-        button.style.backgroundImage = 'none';
-    }
+            // 2. Capture profile picture as blob
+            const previewPhoto = document.querySelector('.preview-photo');
+            const logoDataUrl = previewPhoto.style.backgroundImage.slice(5, -2); // get inside url('...')
+            const logoBlob = await fetch(logoDataUrl).then(r => r.blob());
 
-    // Force Pickr to apply color internally too
-    pickrBackground.applyColor(true);
-});
+            // 3. Create dummy icon.png
+            const iconCanvas = document.createElement('canvas');
+            iconCanvas.width = 29;
+            iconCanvas.height = 29;
+            const iconCtx = iconCanvas.getContext('2d');
+            iconCtx.fillStyle = '#000'; // Black square
+            iconCtx.fillRect(0, 0, 29, 29);
+            const iconBlob = await new Promise(resolve => iconCanvas.toBlob(resolve, 'image/png'));
 
+            // 4. Setup JSZip
+            const zip = new JSZip();
+            zip.file('pass.json', passJsonString);
+            zip.file('logo.png', logoBlob);
+            zip.file('icon.png', iconBlob);
 
-// Text Color Picker
-const pickrText = Pickr.create({
-    el: '#textColorButton',
-    theme: 'classic',
-    default: '#000000',
-    components: {
-        preview: true,
-        opacity: true,
-        hue: true,
-        interaction: {
-            hex: true,
-            rgba: true,
-            input: true
-        }
-    }
-});
+            // 5. Generate manifest.json
+            const manifest = {};
+            const passJsonHash = sha1(passJsonString);
+            manifest['pass.json'] = passJsonHash;
 
-// Update text fields and Pickr button live
-pickrText.on('change', (color) => {
-    const hexColor = color.toHEXA().toString();
+            const logoArrayBuffer = await logoBlob.arrayBuffer();
+            manifest['logo.png'] = sha1(new Uint8Array(logoArrayBuffer));
 
-    // Update text color live
-    document.querySelectorAll('.fade-field').forEach(field => {
-        field.style.color = hexColor;
-    });
+            const iconArrayBuffer = await iconBlob.arrayBuffer();
+            manifest['icon.png'] = sha1(new Uint8Array(iconArrayBuffer));
 
-    // Force Pickr button update properly
-    const button = pickrText.getRoot().button;
-    if (button) {
-        button.style.background = hexColor;
-        button.style.backgroundImage = 'none';
-    }
+            zip.file('manifest.json', JSON.stringify(manifest, null, 2));
 
-    // Force Pickr to apply color internally too
-    pickrText.applyColor(true);
-});
+            // 6. Create dummy signature
+            zip.file('signature', '');
 
+            // 7. Create .pkpass file
+            const pkpassBlob = await zip.generateAsync({ type: 'blob' });
 
+            // 8. Trigger download
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(pkpassBlob);
+            link.download = 'yourpass.pkpass';
+            link.click();
+        });
 
   });  
