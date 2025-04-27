@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const hexColor = color.toHEXA().toString();
 
             // Update pass preview background
-            document.querySelector('.pass-preview').style.backgroundColor = hexColor;
+            document.querySelector('.pass-preview').style.backgroundColor = color.toRGBA().toString();
 
             // Force Pickr button update properly
             const button = pickrBackground.getRoot().button;
@@ -298,8 +298,8 @@ document.addEventListener("DOMContentLoaded", function() {
             const textColor = window.getComputedStyle(document.querySelector('.fade-field')).color || "rgb(0,0,0)";
         
             // Format colors correctly for pass.json (Wallet expects rgb)
-            const formattedBgColor = formatColor(bgColor);
-            const formattedTextColor = formatColor(textColor);
+            const formattedBgColor = bgColor;
+            const formattedTextColor = textColor;
         
             // Build pass.json object
             const passJson = {
@@ -354,6 +354,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // --- Create the PKPASS ---
         const downloadPassButton = document.getElementById('generatePass'); // Reuse your button for now
+        // Disable button initially
+        downloadPassButton.disabled = true;
+
+        // Enable it after cropping a photo
+        cropButton.addEventListener('click', function() {
+            downloadPassButton.disabled = false;
+        });
 
         downloadPassButton.addEventListener('click', async () => {
             // 1. Generate pass.json
