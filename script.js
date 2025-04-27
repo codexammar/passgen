@@ -134,5 +134,52 @@ document.addEventListener("DOMContentLoaded", function() {
           }
           document.querySelector(".qr-wrapper").style.display = "none"; // <-- HIDE the wrapper
         }
-    });      
+    });    
+    
+    // ✨ Alignment Button Live Update Logic
+    const alignmentMappings = {
+        "alignName": document.getElementById("previewName"),
+        "alignEmail": document.getElementById("previewEmail"),
+        "alignPhone": document.getElementById("previewPhone")
+    };
+    
+    document.querySelectorAll('.alignment-group').forEach(group => {
+        const previewElement = alignmentMappings[group.id];
+        
+        group.querySelectorAll('.alignment-button').forEach(button => {
+        button.addEventListener('click', () => {
+            // Unselect other buttons
+            group.querySelectorAll('.alignment-button').forEach(b => b.classList.remove('selected'));
+            button.classList.add('selected');
+    
+            // Get desired alignment from button
+            const alignment = button.getAttribute("data-align");
+            
+            // Update corresponding preview field
+            previewElement.style.textAlign = alignment;
+        });
+        });
+    });
+  
+
+      // --- Visibility Toggles ---
+        const toggleName = document.getElementById("toggleName");
+        const toggleEmail = document.getElementById("toggleEmail");
+        const togglePhone = document.getElementById("togglePhone");
+
+        // Helper function to toggle visibility
+        function updateVisibility() {
+        previewName.style.display = toggleName.checked ? "block" : "none";
+        previewEmail.style.display = toggleEmail.checked ? "block" : "none";
+        previewPhone.style.display = togglePhone.checked ? "block" : "none";
+        }
+
+        // Attach event listeners
+        toggleName.addEventListener("change", updateVisibility);
+        toggleEmail.addEventListener("change", updateVisibility);
+        togglePhone.addEventListener("change", updateVisibility);
+
+        // Call once on page load
+        updateVisibility();
+            
   });  

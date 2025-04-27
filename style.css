@@ -363,4 +363,169 @@
     display: block;
     margin: 0 auto;
   }
+
+  /* --- Field Toggle (Switch Cards) --- */
+.field-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f9f9f9;
+    padding: 0.6rem 1rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    width: 220px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    font-weight: bold;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  html.dark-mode .field-toggle {
+    background: #1f1f1f;
+    color: #eee;
+  }
+  
+  /* Switch Styling */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    background-color: #ccc;
+    border-radius: 24px;
+    transition: 0.4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+  
+  .switch input:checked + .slider {
+    background-color: #0070f3;
+  }
+  
+  .switch input:checked + .slider:before {
+    transform: translateX(20px);
+  }
+  
+  
+  /* --- Field Settings (Dropdowns) --- */
+  .field-settings select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .field-settings select:hover {
+    background: #f0f0f0;
+    border-color: #0070f3;
+  }
+  
+  html.dark-mode .field-settings select {
+    background: #1f1f1f;
+    color: #eee;
+    border: 1px solid #555;
+  }
+  
+  html.dark-mode .field-settings select:hover {
+    background: #2a2a2a;
+    border-color: #3399ff;
+  }
+  
+  /* --- Color Pickers (Divs, No dark mode needed for color pickers themselves) --- */
+  .color-pickers label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.3rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  html.dark-mode .color-pickers label {
+    color: #ccc;
+  }
+  
+  .color-pickers div {
+    width: 50px;
+    height: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: #ddd;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }    
+
+  .alignment-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+  }
+  
+  .alignment-button {
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .alignment-button:hover {
+    background: #f0f0f0;
+    border-color: #0070f3;
+  }
+  
+  .alignment-button.selected {
+    background: #0070f3;
+    color: white;
+    border-color: #0070f3;
+  }
+  
+  html.dark-mode .alignment-button {
+    background: #1f1f1f;
+    border: 1px solid #555;
+    color: #eee;
+  }
+  
+  html.dark-mode .alignment-button:hover {
+    background: #2a2a2a;
+    border-color: #3399ff;
+  }
+  
+  html.dark-mode .alignment-button.selected {
+    background: #3399ff;
+    color: white;
+    border-color: #3399ff;
+  }
+  
   

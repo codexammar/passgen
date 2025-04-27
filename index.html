@@ -81,7 +81,66 @@
           <button type="button" id="generatePass" disabled>Generate Wallet Pass</button>
         </form>
       </div>
-
+      
+      <!-- Customization Panel -->
+      <section class="customization-panel">
+        <h2>Customize Your Pass</h2>
+      
+        <div class="field-settings">
+            <div class="field-toggle">
+                <span>Name:</span>
+                <label class="switch">
+                  <input type="checkbox" id="toggleName" checked>
+                  <span class="slider"></span>
+                </label>
+            </div>              
+            <div class="alignment-group" id="alignName">
+                <button type="button" class="alignment-button selected" data-align="center">Center</button>
+                <button type="button" class="alignment-button" data-align="left">Left</button>
+                <button type="button" class="alignment-button" data-align="right">Right</button>
+            </div>              
+        </div>
+      
+        <div class="field-settings">
+            <div class="field-toggle">
+                <span>Email:</span>
+                <label class="switch">
+                  <input type="checkbox" id="toggleEmail" checked>
+                  <span class="slider"></span>
+                </label>
+            </div>
+            <div class="alignment-group" id="alignEmail">
+                <button type="button" class="alignment-button selected" data-align="center">Center</button>
+                <button type="button" class="alignment-button" data-align="left">Left</button>
+                <button type="button" class="alignment-button" data-align="right">Right</button>
+            </div>              
+        </div>
+      
+        <div class="field-settings">
+            <div class="field-toggle">
+                <span>Phone:</span>
+                <label class="switch">
+                  <input type="checkbox" id="togglePhone" checked>
+                  <span class="slider"></span>
+                </label>
+            </div>
+            <div class="alignment-group" id="alignPhone">
+                <button type="button" class="alignment-button selected" data-align="center">Center</button>
+                <button type="button" class="alignment-button" data-align="left">Left</button>
+                <button type="button" class="alignment-button" data-align="right">Right</button>
+            </div>              
+        </div>
+      
+        <div class="color-pickers">
+          <label>Background Color:</label>
+          <div id="backgroundColorPicker"></div>
+      
+          <label>Text Color:</label>
+          <div id="textColorPicker"></div>
+        </div>
+      </section>
+      
+      
       <!-- Preview Section -->
       <div class="preview-container">
         <div class="pass-preview">
